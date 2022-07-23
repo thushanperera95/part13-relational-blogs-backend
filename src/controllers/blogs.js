@@ -12,37 +12,48 @@ router.get('/', async (req, res) => {
   res.json(blogs)
 })
 
-router.post('/', async (req, res) => {
-  try {
+router.post('/', async (req, res, next) => {
+  if (!req.body.url || !req.body.title) {
+    next({
+      name: 'CastError',
+      message: 'Must provide a valid blog to save'
+    })
+  } else {
     const blog = Blog.build(req.body)
     await blog.save()
     return res.json(blog)
-  } catch (error) {
-    return res.status(400).json({ error })
   }
 })
 
-router.delete('/:id', blogFinder, async (req, res) => {
-  if (req.blog) {
-    await Blog.destroy({
-      where: {
-        id: Number(req.params.id)
-      }
+router.delete('/:id', blogFinder, async (req, res, next) => {
+  if (!req.blog) {
+    next()
+  }
+
+  await Blog.destroy({
+    where: {
+      id: Number(req.params.id)
+    }
+  })
+
+  res.status(204).end()
+})
+
+router.put('/:id', blogFinder, async (req, res, next) => {
+  if (!req.blog) {
+    next()
+  }
+
+  if (!req.body.likes) {
+    next({
+      name: 'CastError',
+      message: 'Must provide a valid number of likes'
     })
-
-    res.status(204).end()
-  } else {
-    res.status(404).end()
   }
-})
-
-router.put('/:id', blogFinder, async (req, res) => {
-  if (req.blog) {
+  else {
     req.blog.likes = req.body.likes
     await req.blog.save()
     return res.json(req.blog)
-  } else {
-    res.status(404).end()
   }
 })
 
