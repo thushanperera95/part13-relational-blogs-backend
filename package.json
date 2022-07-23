@@ -1,0 +1,29 @@
+{
+  "name": "part13-relational-blogs-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thushanperera95/part13-relational-blogs-backend.git"
+  },
+  "author": "Thushan Perera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thushanperera95/part13-relational-blogs-backend/issues"
+  },
+  "homepage": "https://github.com/thushanperera95/part13-relational-blogs-backend#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "pg": "^8.7.3",
+    "sequelize": "^6.21.3"
+  }
+}
