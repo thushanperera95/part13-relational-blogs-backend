@@ -27,24 +27,28 @@ router.get('/', async (req, res) => {
   const blogs = await Blog.findAll({
     attributes: {
       exclude: ['userId']
+    },
+    include: {
+      model: User,
+      attributes: ['name']
     }
   })
   res.json(blogs)
 })
 
 router.post('/', tokenExtractor, async (req, res, next) => {
-  if (!req.body.url || !req.body.title) {
-    next({
+  if (!(req.body && req.body.url && req.body.title)) {
+    throw {
       name: 'CastError',
       message: 'Must provide a valid blog to save'
-    })
-  } else {
-    const user = await User.findByPk(req.decodedToken.id)
-    const blog = Blog.build(req.body)
-    blog.userId = user.id
-    await blog.save()
-    return res.json(blog)
+    }
   }
+
+  const user = await User.findByPk(req.decodedToken.id)
+  const blog = Blog.build(req.body)
+  blog.userId = user.id
+  await blog.save()
+  return res.json(blog)
 })
 
 router.delete('/:id', blogFinder, tokenExtractor, async (req, res, next) => {
@@ -54,7 +58,10 @@ router.delete('/:id', blogFinder, tokenExtractor, async (req, res, next) => {
 
   const user = await User.findByPk(req.decodedToken.id)
   if (req.blog.userId !== user.id) {
-    throw { name: 'NotAuthorizedError', message: "You cannot delete a blog that you didn't create" }
+    throw {
+      name: 'NotAuthorizedError',
+      message: "You cannot delete a blog that you didn't create"
+    }
   }
 
   await Blog.destroy({
@@ -72,16 +79,15 @@ router.put('/:id', blogFinder, async (req, res, next) => {
   }
 
   if (!req.body.likes) {
-    next({
+    throw {
       name: 'CastError',
       message: 'Must provide a valid number of likes'
-    })
+    }
   }
-  else {
-    req.blog.likes = req.body.likes
-    await req.blog.save()
-    return res.json(req.blog)
-  }
+
+  req.blog.likes = req.body.likes
+  await req.blog.save()
+  return res.json(req.blog)
 })
 
 module.exports = router

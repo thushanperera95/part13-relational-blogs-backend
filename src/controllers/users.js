@@ -1,28 +1,28 @@
 const router = require('express').Router()
 
-const { User } = require('../models')
-
-const blogFinder = async (req, res, next) => {
-  req.blog = await Blog.findByPk(Number(req.params.id))
-  next()
-}
+const { User, Blog } = require('../models')
 
 router.get('/', async (req, res) => {
-  const users = await User.findAll()
+  const users = await User.findAll({
+    include: {
+      model: Blog,
+      attribute: { exclude: ['userId'] }
+    }
+  })
   res.json(users)
 })
 
 router.post('/', async (req, res, next) => {
-  if (!req.body.username || !req.body.name) {
-    next({
+  if (!(req.body && req.body.username && req.body.name)) {
+    throw {
       name: 'CastError',
       message: 'Must provide a valid user to save'
-    })
-  } else {
-    const user = User.build(req.body)
-    await user.save()
-    return res.json(user)
+    }
   }
+
+  const user = User.build(req.body)
+  await user.save()
+  return res.json(user)
 })
 
 router.put('/:username', async (req, res, next) => {
@@ -37,16 +37,15 @@ router.put('/:username', async (req, res, next) => {
   }
 
   if (!req.body.username) {
-    next({
+    throw {
       name: 'CastError',
       message: 'Must provide a valid username'
-    })
+    }
   }
-  else {
-    user.username = req.body.username
-    await user.save()
-    return res.json(user)
-  }
+
+  user.username = req.body.username
+  await user.save()
+  return res.json(user)
 })
 
 module.exports = router
