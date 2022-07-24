@@ -1,0 +1,22 @@
+POST http://localhost:3001/api/blogs HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthb3pnYW1lcjJAdGVzdC5jb20iLCJpZCI6MiwiaWF0IjoxNjU4NjQwOTk0fQ.mFbitHgv6CJiTNHqoH7Xklt3Jh_s_uPwzLFol5WPSa0
+
+{
+    "url": "www.testurl.com",
+    "title": "Test Title3"
+}
+
+###
+
+POST http://localhost:3001/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "kaozgamer2@test.com",
+    "password": "secret"
+}
+
+###
+
+GET http://localhost:3001/api/blogs HTTP/1.1

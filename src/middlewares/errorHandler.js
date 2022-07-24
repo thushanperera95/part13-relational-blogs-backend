@@ -1,8 +1,13 @@
 const errorHandler = (error, request, response, next) => {
+  console.log(error.name)
   console.log(error.message)
   if (error.name === 'CastError') {
     return response.status(400).send({ error: error.message })
-  } else {
+  }
+  else if (error.name === 'SequelizeValidationError') {
+    return response.status(400).send({ error: error.message })
+  }
+  else {
     next(error)
   }
 }
