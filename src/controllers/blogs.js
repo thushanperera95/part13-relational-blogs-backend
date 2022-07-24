@@ -47,9 +47,14 @@ router.post('/', tokenExtractor, async (req, res, next) => {
   }
 })
 
-router.delete('/:id', blogFinder, async (req, res, next) => {
+router.delete('/:id', blogFinder, tokenExtractor, async (req, res, next) => {
   if (!req.blog) {
     next()
+  }
+
+  const user = await User.findByPk(req.decodedToken.id)
+  if (req.blog.userId !== user.id) {
+    throw { name: 'NotAuthorizedError', message: "You cannot delete a blog that you didn't create" }
   }
 
   await Blog.destroy({

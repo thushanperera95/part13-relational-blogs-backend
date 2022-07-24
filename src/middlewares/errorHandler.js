@@ -7,6 +7,9 @@ const errorHandler = (error, request, response, next) => {
   else if (error.name === 'SequelizeValidationError') {
     return response.status(400).send({ error: error.message })
   }
+  else if (error.name === 'NotAuthorizedError') {
+    return response.status(401).send({ error: error.message })
+  }
   else {
     next(error)
   }
