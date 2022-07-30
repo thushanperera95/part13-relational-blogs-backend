@@ -1,0 +1,25 @@
+PUT http://localhost:3001/api/readingLists/1 HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthb3pnYW1lcjVAdGVzdC5jb20iLCJpZCI6MiwiaWF0IjoxNjU5MTczMjAzfQ.9_qflk_t_WLVlN32IEeT5RVHemoudUJX4icFD3Tc95k
+
+{
+    "read": true
+}
+
+###
+
+POST http://localhost:3001/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "kaozgamer5@test.com",
+    "password": "secret"
+}
+
+###
+
+GET http://localhost:3001/api/readingLists HTTP/1.1
+
+###
+
+GET http://localhost:3001/api/users HTTP/1.1
