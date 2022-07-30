@@ -25,13 +25,28 @@ router.get('/:id', async (req, res, next) => {
       attributes: { exclude: ['userId', 'createdAt', 'updatedAt'] },
       through: {
         attributes: []
+      },
+      include: {
+        model: User,
+        as: 'readingLists',
+        attributes: ['id'],
+        through: {
+          attributes: ['hasRead']
+        }
       }
-    }
-    ]
+    }]
   })
 
-  if (user) {
-    res.json(user)
+  const userJson = user.toJSON()
+  userJson.readings.forEach(reading => {
+    reading.readingLists[0] = {
+      id: reading.readingLists[0].id,
+      read: reading.readingLists[0].user_blogs.hasRead
+    }
+  })
+
+  if (userJson) {
+    res.json(userJson)
   } else {
     next()
   }
