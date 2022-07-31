@@ -1,12 +1,12 @@
 POST http://localhost:3001/api/blogs HTTP/1.1
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthb3pnYW1lcjRAdGVzdC5jb20iLCJpZCI6MSwiaWF0IjoxNjU5MTU1NzUyfQ.ta7PFzDKnLGJ0Fz8gX8EJFihQ1aoCNfEsNuzOdicJDI
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthb3pnYW1lcjRAdGVzdC5jb20iLCJpZCI6MSwiaWF0IjoxNjU5MjQzNjU0fQ.zSASsNKAThvXAEKWtvcodPi2kDfA2Sa5KAsMCO2rgcs
 
 {
-    "url": "www.testurl2.com",
-    "title": "Test Title4",
-    "year": 1999,
-    "author": "Thushan"
+    "url": "www.testurl25.com",
+    "title": "Test Title50",
+    "year": 2004,
+    "author": "Thushan Perera"
 }
 
 ###

@@ -10,6 +10,11 @@ const errorHandler = (error, request, response, next) => {
   else if (error.name === 'NotAuthorizedError') {
     return response.status(401).send({ error: error.message })
   }
+  else if (error.name === 'TokenExpiredError') {
+    return response.status(401).json({
+      error: 'token expired'
+    })
+  }
   else {
     next(error)
   }

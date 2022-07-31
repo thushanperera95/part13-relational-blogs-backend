@@ -1,5 +1,6 @@
 const router = require('express').Router()
 
+const sessionChecker = require('../middlewares/sessionChecker')
 const tokenExtractor = require('../middlewares/tokenExtractor')
 const UserBlogs = require('../models/userBlog')
 
@@ -22,7 +23,7 @@ router.post('/', async (req, res) => {
   return res.json(userBlog)
 })
 
-router.put('/:id', tokenExtractor, async (req, res, next) => {
+router.put('/:id', tokenExtractor, sessionChecker, async (req, res, next) => {
   if (!req.body) {
     throw {
       name: 'CastError',

@@ -1,10 +1,5 @@
-PUT http://localhost:3001/api/readingLists/2 HTTP/1.1
-Content-Type: application/json
+DELETE http://localhost:3001/api/logout HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthb3pnYW1lcjRAdGVzdC5jb20iLCJpZCI6MSwiaWF0IjoxNjU5MjQzNTE1fQ.8JRagmI9SaP34nGW2KQBPClmmiV9U65BLsLjHDIilH4
-
-{
-    "read": true
-}
 
 ###
 
@@ -12,13 +7,9 @@ POST http://localhost:3001/api/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "kaozgamer5@test.com",
+    "username": "kaozgamer4@test.com",
     "password": "secret"
 }
-
-###
-
-GET http://localhost:3001/api/readingLists HTTP/1.1
 
 ###
 

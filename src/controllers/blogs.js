@@ -1,9 +1,11 @@
 const sequelize = require('sequelize')
 const { Op } = require('sequelize')
 const tokenExtractor = require('../middlewares/tokenExtractor')
+const sessionChecker = require('../middlewares/sessionChecker')
 const router = require('express').Router()
 
 const { Blog, User } = require('../models')
+const UserBlogs = require('../models/userBlog')
 
 const blogFinder = async (req, res, next) => {
   req.blog = await Blog.findByPk(Number(req.params.id))
@@ -38,7 +40,7 @@ router.get('/', async (req, res) => {
   res.json(blogs)
 })
 
-router.post('/', tokenExtractor, async (req, res, next) => {
+router.post('/', tokenExtractor, sessionChecker, async (req, res, next) => {
   if (!(req.body && req.body.url && req.body.title)) {
     throw {
       name: 'CastError',
@@ -53,7 +55,7 @@ router.post('/', tokenExtractor, async (req, res, next) => {
   return res.json(blog)
 })
 
-router.delete('/:id', blogFinder, tokenExtractor, async (req, res, next) => {
+router.delete('/:id', blogFinder, tokenExtractor, sessionChecker, async (req, res, next) => {
   if (!req.blog) {
     next()
   }
@@ -65,6 +67,12 @@ router.delete('/:id', blogFinder, tokenExtractor, async (req, res, next) => {
       message: "You cannot delete a blog that you didn't create"
     }
   }
+
+  await UserBlogs.destroy({
+    where: {
+      blogId: Number(req.params.id)
+    }
+  })
 
   await Blog.destroy({
     where: {
